@@ -1,44 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Card, Avatar,Row,Col } from 'antd';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-const { Meta } = Card;
+import React from 'react';
+import {Card, Row, Col, Button} from 'antd';
 
- const Episodes = () =>{
-    const [data, setData] = useState();
- console.log(data);
-    useEffect(() => {
-        const fetchData = async () => {
-          const result = await axios(
-            'https://rickandmortyapi.com/api/episode',
-          );
-     
-          setData(result.data);
-        };
-     
-        fetchData();
-      }, []);
-     
+
+const Episodes = ({data,episodeName,setEpisodeName}) => {
+
+const handleClick=(item)=> {
+    setEpisodeName(item)
+}
     return (
         <>
-                        <h2>Episodes</h2>
+            <h2>Episodes</h2>
+            <Row gutter={[16]}>
+                {data?.results.map(item => (
+                    <Col span={8}>
 
-        <Row gutter={[16]}>
-              {data?.results.map(item => (
-                <Col span={8}>
+                        <Card key={item.id} title={item.name} bordered={true} style={{marginTop: 16}} episodeName={episodeName}
+                        >
+                            <Button onClick={()=>handleClick(item.id)} >Learn More...</Button>
+                            <p>{item.episode}</p>
+                            <p>{item.air_date}</p>
+                            <p>{item.url}</p>
+                        </Card>
+                    </Col>
 
-                <Card key={item.id} title={item.name} bordered={true}       style={{ marginTop: 16 }}
->
-      <p>{item.episode}</p>
-      <p>{item.air_date}</p>
-      <p>{item.url}</p>
-    </Card>
-    </Col>
+                ))}
 
-    ))}
-
-   </Row>
-   </>
+            </Row>
+        </>
     )
 }
 export default Episodes
