@@ -1,11 +1,15 @@
 import React from 'react';
 import {Card, Row, Col, Button} from 'antd';
+import {useHistory} from "react-router-dom";
 
 
 const Episodes = ({data,episodeName,setEpisodeName}) => {
+    let history = useHistory();
 
 const handleClick=(item)=> {
     setEpisodeName(item)
+    history.push(`/episode/${episodeName}`)
+
 }
     return (
         <>

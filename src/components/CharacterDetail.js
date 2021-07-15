@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios";
+import {Avatar, Card, Col, List, Row} from "antd";
 
 const CharacterDetail = ({characterName, setCharacterName}) => {
     const [singleChar,setSingleChar]=useState()
@@ -10,13 +11,22 @@ const CharacterDetail = ({characterName, setCharacterName}) => {
             );
             console.log(result.data)
             setSingleChar(result.data);
-            console.log(singleChar)
         };
 
         fetchData()
-    }, [characterName,setCharacterName,singleChar]);
+    }, [characterName,setCharacterName]);
     return (
-        <div>{singleChar?.name}</div>
-    )
+        <div><Row gutter={[16]}>
+            <Col span={8}>
+
+                <Card key={singleChar?.id} title={singleChar?.name} bordered={true} style={{marginTop: 16}}>
+                    <p>{singleChar?.name}</p>
+                    <p>{singleChar?.status}</p>
+                    <p>{singleChar?.species}</p>
+                </Card>
+            </Col>
+
+
+        </Row></div>    )
 }
 export default CharacterDetail

@@ -1,10 +1,14 @@
 import React from 'react';
 import {Card, Row, Col, Button} from 'antd';
+import { useHistory } from "react-router-dom";
 
 const Characters = ({data, characterName, setCharacterName}) => {
+    let history = useHistory();
+
     const handleClick = (item) => {
         console.log(characterName)
         setCharacterName(item)
+        history.push(`/character/${characterName}`)
     }
     return (
         <>
