@@ -18,7 +18,10 @@ const {Header, Content} = Layout;
 const App = () => {
     const [episodeData, setEpisodeData] = useState();
     const [episodeName, setEpisodeName] = useState();
+    console.log(episodeName,   "FROM APP")
+
     const [characterName, setCharacterName] = useState()
+
     useEffect(() => {
         const fetchData = async () => {
             const result = await axios(
@@ -69,7 +72,7 @@ const App = () => {
                                             setCharacterName={setCharacterName}/>
                             </Route>
                             <Route path={`/episode/${episodeName}`}>
-                                <EpisodeDetail episodeName={episodeName} setEpisodeName={setEpisodeName}/>
+                                <EpisodeDetail episodeName={episodeName} />
                             </Route>
                         </Switch>
 

@@ -3,6 +3,7 @@ import axios from "axios";
 import {Avatar, Card, Col, List, Row} from "antd";
 
 const CharacterDetail = ({characterName, setCharacterName}) => {
+    console.log(characterName,"C from DETAIL")
     const [singleChar,setSingleChar]=useState()
     useEffect(() => {
         const fetchData = async () => {
