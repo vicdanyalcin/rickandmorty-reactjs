@@ -5,7 +5,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import {Layout, Menu} from 'antd';
+import {Layout, Menu, Select} from 'antd';
 import CharacterDetail from "./components/CharacterDetail"
 import Characters from "./components/Characters"
 import EpisodeDetail from "./components/EpisodeDetail"
@@ -14,11 +14,14 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 const {Header, Content} = Layout;
+const {Option} = Select;
 
 const App = () => {
     const [episodeData, setEpisodeData] = useState();
+    const [value, setValue] = useState(null);
+
     const [episodeName, setEpisodeName] = useState();
-    console.log(episodeName,   "FROM APP")
+    console.log(episodeName, "FROM APP")
 
     const [characterName, setCharacterName] = useState()
 
@@ -44,7 +47,17 @@ const App = () => {
 
         fetchData();
     }, []);
+    const handleOnChange = (value) => {
+        console.log(value, "in funnction")
+        if (value === "1") {
+            setValue(true)
 
+        }
+        if (value === "2") {
+            setValue(false)
+            return value;
+        }
+    }
     return (
         <Router>
             <div>
@@ -60,6 +73,7 @@ const App = () => {
                 </Layout>
                 <Layout style={{padding: '0 24px 24px'}}>
                     <Content className="site-layout" style={{padding: '0 50px', marginTop: 64}}>
+
                         <Switch>
                             <Route path={`/character/${characterName}`}>
                                 <CharacterDetail characterName={characterName} setCharacterName={setCharacterName}/>
@@ -72,7 +86,7 @@ const App = () => {
                                             setCharacterName={setCharacterName}/>
                             </Route>
                             <Route path={`/episode/${episodeName}`}>
-                                <EpisodeDetail episodeName={episodeName} />
+                                <EpisodeDetail onSelect={handleOnChange} value={value} episodeName={episodeName}/>
                             </Route>
                         </Switch>
 
@@ -81,7 +95,6 @@ const App = () => {
 
             </div>
         </Router>
-    );
+    )
 }
-
-export default App;
+export default App
