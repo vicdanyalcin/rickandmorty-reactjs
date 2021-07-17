@@ -21,7 +21,6 @@ const App = () => {
     const [value, setValue] = useState(null);
 
     const [episodeName, setEpisodeName] = useState();
-    console.log(episodeName, "FROM APP")
 
     const [characterName, setCharacterName] = useState()
 
@@ -48,7 +47,6 @@ const App = () => {
         fetchData();
     }, []);
     const handleOnChange = (value) => {
-        console.log(value, "in funnction")
         if (value === "1") {
             setValue(true)
 

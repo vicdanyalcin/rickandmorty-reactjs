@@ -1,22 +1,23 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios";
-import {Button, Card, Col, Row, List, Avatar, Spin, Select} from "antd";
+import {Button, Card, Col, Row, List, Avatar, Spin, Select, Form} from "antd";
 import {logDOM} from "@testing-library/react";
 import FilterForm from "./FilterForm";
 
 const {Option} = Select;
-const EpisodeDetail = ({episodeName, value, onSelect}) => {
-    console.log(value,"VALUE")
+const EpisodeDetail = ({episodeName, value, onSelect,onClick}) => {
     const [single, setSingle] = useState()
     const [single2, setSingle2] = useState();
     const [sortedData, setSortedData] = useState()
     const [sortedData2, setSortedData2] = useState()
+    const [single3, setSingle3] = useState();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isLoading2, setIsLoading2] = useState(false);
     // const simpleSort = Array.from(strings).sort((a, b) => a - b);
     //
     //
+    const [form] = Form.useForm();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -25,7 +26,6 @@ const EpisodeDetail = ({episodeName, value, onSelect}) => {
             );
             setIsLoading2(true);
 
-            console.log(result.data)
             setSingle(result.data);
             setIsLoading2(false);
 
@@ -36,7 +36,6 @@ const EpisodeDetail = ({episodeName, value, onSelect}) => {
     const url = single?.characters.map(function (x) {
         return x.replace("https://rickandmortyapi.com/api/character/", '');
     });
-    console.log(url)
     const toNumberE = url?.map(function (x) {
         return parseInt(x, 10);
     });
@@ -57,7 +56,22 @@ const EpisodeDetail = ({episodeName, value, onSelect}) => {
     }, [realUrl, value]);
     let newState1 = single2
     let newState2 = single2
+const onFinish = (e) => {
+    console.log(e)
+    let filterData=Array.from(single2)
+let newFilteredData= filterData.filter((f)=>(f.name).toLowerCase().includes(e.name))
+setSingle2(newFilteredData)
+}
+const onReset = async () => {
+        form.resetFields();
+    const result = await axios(
+        realUrl,
+    );
+    setIsLoading(true);
+    setSingle2(result.data)
+    setIsLoading(false);
 
+    };
     return (
         <Spin spinning={isLoading || isLoading2}>
 
@@ -74,7 +88,7 @@ const EpisodeDetail = ({episodeName, value, onSelect}) => {
                 </Col>
                 <Col span={16}>
 
-                    <FilterForm/>
+                    <FilterForm onFinish={onFinish} value={value} form={form} onClick={onReset}/>
                     <Select
                         showSearch
                         style={{width: 200}}
@@ -95,11 +109,10 @@ const EpisodeDetail = ({episodeName, value, onSelect}) => {
                     </Select>
                     <List style={{marginTop: 16}}
                           itemLayout="horizontal"
-                          dataSource={single2 || sortedData || sortedData2}
+                          dataSource={single2}
                           bordered
                           setSortedData={setSortedData}
                           setSortedData2={setSortedData2}
-
                           renderItem={item => (
                               <List.Item extra={
                                   <img
