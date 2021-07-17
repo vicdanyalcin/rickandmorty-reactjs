@@ -5,7 +5,7 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import {Layout, Menu, Select} from 'antd';
+import {Layout, Menu} from 'antd';
 import CharacterDetail from "./components/CharacterDetail"
 import Characters from "./components/Characters"
 import EpisodeDetail from "./components/EpisodeDetail"
@@ -14,7 +14,6 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 const {Header, Content} = Layout;
-const {Option} = Select;
 
 const App = () => {
     const [episodeData, setEpisodeData] = useState();

@@ -1,22 +1,17 @@
 import React, {useEffect, useState} from 'react'
 import axios from "axios";
-import {Button, Card, Col, Row, List, Avatar, Spin, Select, Form} from "antd";
-import {logDOM} from "@testing-library/react";
+import { Card, Col, Row, List, Spin, Select, Form} from "antd";
 import FilterForm from "./FilterForm";
 
 const {Option} = Select;
-const EpisodeDetail = ({episodeName, value, onSelect,onClick}) => {
+const EpisodeDetail = ({episodeName, value, onSelect}) => {
     const [single, setSingle] = useState()
     const [single2, setSingle2] = useState();
-    const [sortedData, setSortedData] = useState()
-    const [sortedData2, setSortedData2] = useState()
-    const [single3, setSingle3] = useState();
+
 
     const [isLoading, setIsLoading] = useState(false);
     const [isLoading2, setIsLoading2] = useState(false);
-    // const simpleSort = Array.from(strings).sort((a, b) => a - b);
-    //
-    //
+
     const [form] = Form.useForm();
 
     useEffect(() => {
@@ -54,31 +49,26 @@ const EpisodeDetail = ({episodeName, value, onSelect,onClick}) => {
         };
         fetchData()
     }, [realUrl, value]);
-    let newState1 = single2
-    let newState2 = single2
-const onFinish = (e) => {
-    console.log(e)
-    let filterData=Array.from(single2)
-let newFilteredData= filterData.filter((f)=>(f.name).toLowerCase().includes(e.name))
-setSingle2(newFilteredData)
-}
-const onReset = async () => {
+
+    const onFinish = (e) => {
+        let filterData = Array.from(single2)
+        let newFilteredData = filterData.filter((f) => (f.name).toLowerCase().includes(e.name))
+        setSingle2(newFilteredData)
+    }
+    const onReset = async () => {
         form.resetFields();
-    const result = await axios(
-        realUrl,
-    );
-    setIsLoading(true);
-    setSingle2(result.data)
-    setIsLoading(false);
+        const result = await axios(
+            realUrl,
+        );
+        setIsLoading(true);
+        setSingle2(result.data)
+        setIsLoading(false);
 
     };
     return (
         <Spin spinning={isLoading || isLoading2}>
-
             <div><Row gutter={[16]}>
-
                 <Col span={8}>
-
                     <Card key={single?.id} title={single?.name} bordered={true} style={{marginTop: 16}}
                           episodeName={episodeName}
                     >
@@ -87,7 +77,6 @@ const onReset = async () => {
                     </Card>
                 </Col>
                 <Col span={16}>
-
                     <FilterForm onFinish={onFinish} value={value} form={form} onClick={onReset}/>
                     <Select
                         showSearch
@@ -104,15 +93,13 @@ const onReset = async () => {
                         }
                         onSelect={onSelect}
                     >
-                        <Option value="1">Most Voted(Z-A)</Option>
-                        <Option value="2">Less Voted(A-Z)</Option>
+                        <Option value="1">(A-Z)</Option>
+                        <Option value="2">(Z-A)</Option>
                     </Select>
                     <List style={{marginTop: 16}}
                           itemLayout="horizontal"
                           dataSource={single2}
                           bordered
-                          setSortedData={setSortedData}
-                          setSortedData2={setSortedData2}
                           renderItem={item => (
                               <List.Item extra={
                                   <img
@@ -128,9 +115,7 @@ const onReset = async () => {
                               </List.Item>
                           )}
                     />
-
                 </Col>
-
             </Row></div>
         </Spin>
 
